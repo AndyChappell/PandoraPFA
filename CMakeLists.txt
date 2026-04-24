@@ -43,14 +43,24 @@ message(STATUS "  - LArContent: ${PANDORA_CONTENT}")
 #-------------------------------------------------------------------------------------------------------------------------------------------
 # Common CMake arguments to pass to all external projects
 # We enforce the same install prefix, build type, and C++ standard for consistency.
+
+set(CMAKE_CXX_STANDARD 17 CACHE STRING "Minimum C++ standard")
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 list(APPEND COMMON_CMAKE_ARGS
     "-DCMAKE_INSTALL_PREFIX:PATH=${STAGING_INSTALL_DIR}"
     "-DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}"
-    "-DCMAKE_CXX_STANDARD:STRING=17"
-    # Pass the CMAKE_PREFIX_PATH so sub-projects can find dependencies (like ROOT)
-    # that the user has specified for the super-build.
+    "-DCMAKE_CXX_STANDARD:STRING=${CMAKE_CXX_STANDARD}"
     "-DCMAKE_PREFIX_PATH:PATH=${CMAKE_PREFIX_PATH}"
     "-DCMAKE_INSTALL_LIBDIR:STRING=lib"
+    "-DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=${CMAKE_POSITION_INDEPENDENT_CODE}"
+    "-DCMAKE_CXX_COMPILER:STRING=${CMAKE_CXX_COMPILER}"
+    "-DCMAKE_C_COMPILER:STRING=${CMAKE_C_COMPILER}"
+    "-DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS}"
+    "-DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS}"
+    "-DCMAKE_EXE_LINKER_FLAGS:STRING=${CMAKE_EXE_LINKER_FLAGS}"
+    "-DCMAKE_SHARED_LINKER_FLAGS:STRING=${CMAKE_SHARED_LINKER_FLAGS}"
 )
 
 #-------------------------------------------------------------------------------------------------------------------------------------------
